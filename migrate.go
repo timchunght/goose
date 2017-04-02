@@ -52,7 +52,7 @@ func (ms Migrations) Next(current int64) (*Migration, error) {
 }
 
 func (ms Migrations) Previous(current int64) (*Migration, error) {
-	for i := len(ms)-1; i >= 0; i-- {
+	for i := len(ms) - 1; i >= 0; i-- {
 		if ms[i].Version < current {
 			return ms[i], nil
 		}
@@ -208,15 +208,15 @@ func EnsureDBVersion(db *sql.DB) (int64, error) {
 // Create the goose_db_version table
 // and insert the initial 0 value into it
 func createVersionTable(db *sql.DB) error {
-	txn, err := db.Begin()
-	if err != nil {
+
+	d := GetDialect()
+	if _, err := db.Exec(d.createVersionTableSql()); err != nil {
+
 		return err
 	}
 
-	d := GetDialect()
-
-	if _, err := txn.Exec(d.createVersionTableSql()); err != nil {
-		txn.Rollback()
+	txn, err := db.Begin()
+	if err != nil {
 		return err
 	}
 
@@ -224,6 +224,7 @@ func createVersionTable(db *sql.DB) error {
 	applied := true
 	if _, err := txn.Exec(d.insertVersionSql(), version, applied); err != nil {
 		txn.Rollback()
+		db.Exec("DROP TABLE goose_db_version;")
 		return err
 	}
 
