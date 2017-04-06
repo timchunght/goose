@@ -148,7 +148,7 @@ package migration
 import (
     "database/sql"
 
-    "github.com/pressly/goose"
+    "github.com/timchunght/goose"
 )
 
 func init() {

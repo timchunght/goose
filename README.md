@@ -6,12 +6,12 @@ Goose is a database migration tool. Manage your database's evolution by creating
 
 ### Goals of this fork
 
-github.com/pressly/goose is a fork of bitbucket.org/liamstask/goose with the following changes:
+github.com/timchunght/goose is a fork of bitbucket.org/liamstask/goose with the following changes:
 - No config files
 - [Default goose binary](./cmd/goose/main.go) can migrate SQL files only
 - Go migrations:
     - We dropped building Go migrations on-the-fly from .go source files
-    - Instead, you can create your own goose binary, import `github.com/pressly/goose`
+    - Instead, you can create your own goose binary, import `github.com/timchunght/goose`
       package and run complex Go migrations with your own `*sql.DB` connection
     - Each Go migration function is called with `*sql.Tx` argument - within its own transaction
 - The goose pkg is decoupled from the default binary:
@@ -21,7 +21,7 @@ github.com/pressly/goose is a fork of bitbucket.org/liamstask/goose with the fol
 
 # Install
 
-    $ go get -u github.com/pressly/goose/cmd/goose
+    $ go get -u github.com/timchunght/goose/cmd/goose
 
 This will install the `goose` binary to your `$GOPATH/bin` directory.
 
@@ -166,7 +166,7 @@ language plpgsql;
 ## Go Migrations
 
 1. Create your own goose binary, see [example](./example/migrations-go/cmd/main.go)
-2. Import `github.com/pressly/goose`
+2. Import `github.com/timchunght/goose`
 3. Register your migration functions
 4. Run goose command, ie. `goose.Up(db *sql.DB, dir string)`
 
@@ -178,7 +178,7 @@ package migrations
 import (
 	"database/sql"
 
-	"github.com/pressly/goose"
+	"github.com/timchunght/goose"
 )
 
 func init() {
@@ -206,7 +206,7 @@ func Down(tx *sql.Tx) error {
 
 Licensed under [MIT License](./LICENSE)
 
-[GoDoc]: https://godoc.org/github.com/pressly/goose
-[GoDoc Widget]: https://godoc.org/github.com/pressly/goose?status.svg
-[Travis]: https://travis-ci.org/pressly/goose
-[Travis Widget]: https://travis-ci.org/pressly/goose.svg?branch=master
+[GoDoc]: https://godoc.org/github.com/timchunght/goose
+[GoDoc Widget]: https://godoc.org/github.com/timchunght/goose?status.svg
+[Travis]: https://travis-ci.org/timchunght/goose
+[Travis Widget]: https://travis-ci.org/timchunght/goose.svg?branch=master
