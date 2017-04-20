@@ -63,6 +63,15 @@ func (m *Migration) run(db *sql.DB, direction bool) error {
 				return err
 			}
 		}
+		err = tx.Commit()
+		if err != nil {
+			log.Fatal("erroring commiting migration: ", err)
+		}
+
+		tx, err = db.Begin()
+		if err != nil {
+			log.Fatal("finalize migration db.Begin: ", err)
+		}
 
 		if err = FinalizeMigration(tx, direction, m.Version); err != nil {
 			log.Fatalf("error finalizing migration %s, quitting. (%v)", filepath.Base(m.Source), err)
